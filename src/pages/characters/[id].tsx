@@ -15,7 +15,7 @@ export default function CharacterPage() {
   const { isLoading, data , isError} = useResourceQueryById<Character>(
     id as string,
     'people', {
-      enabled: !!id && Number.isInteger(Number(id)),
+      enabled: !router.isFallback && !!id && Number.isInteger(Number(id)),
     }
   )
   if(!id) {

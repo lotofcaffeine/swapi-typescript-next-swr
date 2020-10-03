@@ -68,8 +68,12 @@ export const useResourceQueryById = <T extends Resource>(
   type: string,
   queryConfig?: ResourceQueryHookConfig<T>
 ): ResourceQueryHookResult<T> => {
+  let key: string[] | null = [type, id]
+  if(queryConfig) {
+    key = queryConfig?.enabled?[type, id]:null
+  }
   const { data, error } = useSWR(
-    [type, id],
+    key,
     () => fetchResourceById<T>(id, type),
     queryConfig
   )
