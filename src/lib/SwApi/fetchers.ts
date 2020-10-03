@@ -8,12 +8,21 @@ import axios from 'axios'
 import { Character } from 'models'
 import { sanitizeUrl, urlToIdAndType } from 'lib/utils'
 
+const instance = axios.create({
+  baseURL: 'https://swapi.dev/api/',
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+    "Access-Control-Allow-Origin": true,
+    "Access-Control-Allow-Credentials": true
+  }
+});
+
 export const fetchCharacterList: CharacterListFetcher = async (
   url = 'https://swapi.dev/api/people/?page=1'
 ) => {
 
   url = sanitizeUrl(url)
-  const resp = await axios.get(url)
+  const resp = await instance.get(url)
   // if(!resp) return null;
   const data = resp.data
   // if(data!) return null;
@@ -28,7 +37,7 @@ export const fetchCharacterList: CharacterListFetcher = async (
 
 export const fetchResource: ResourceFetcher = async <T>(url: string) => {
 
-  const resp = await axios.get(sanitizeUrl(url))
+  const resp = await instance.get(sanitizeUrl(url))
   const data = resp.data
   return data as T
 }
