@@ -6,6 +6,7 @@ import {
 } from './types'
 import {
   fetchCharacterList,
+  fetchProxyResourceById,
   fetchResource,
   fetchResourceById
 } from 'lib/SwApi'
@@ -74,7 +75,7 @@ export const useResourceQueryById = <T extends Resource>(
   }
   const { data, error } = useSWR(
     key,
-    () => fetchResourceById<T>(id, type),
+    () => fetchProxyResourceById<T>(id, type),
     queryConfig
   )
   if (data) {
